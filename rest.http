@@ -1,0 +1,11 @@
+//User API----------------------------------------------------------------------------------
+### Create user
+
+POST http://localhost:8000/api/v1/user
+Content-Type: application/json
+
+{
+    "name" : "test1",
+    "userName" : "testUsername",
+    "password" : "test1"
+}
