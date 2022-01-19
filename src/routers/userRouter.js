@@ -1,10 +1,15 @@
 import express from "express";
-import { fetchUser, createUser } from "../models/user/userModel.js";
+import {
+  fetchUser,
+  createUser,
+  updateUserRoleAndStatus,
+} from "../models/user/userModel.js";
 import { hashPass } from "../helpers/bcryptHelper.js";
 import { newUserValidation } from "../middlewares/userValidation.js";
 
 const Router = express.Router();
 
+//fetch all user
 Router.get("/", async (req, res, next) => {
   try {
     const result = await fetchUser();
@@ -29,6 +34,7 @@ Router.get("/", async (req, res, next) => {
   }
 });
 
+// add new user
 Router.post("/", newUserValidation, async (req, res, next) => {
   try {
     const { password } = req.body;
@@ -49,6 +55,32 @@ Router.post("/", newUserValidation, async (req, res, next) => {
     if (error.message.includes("E11000 duplicate key error collection")) {
       error.status = 200;
       error.message = "Email already exist";
+    }
+    next(error);
+  }
+});
+
+//Update user role and status
+Router.patch("/", async (req, res, next) => {
+  try {
+    const { userName, ...toUpdate } = req.body;
+    console.log(userName);
+    console.log(toUpdate);
+    const result = await updateUserRoleAndStatus({ userName }, toUpdate);
+    if (result?._id) {
+      return res.json({
+        status: "success",
+        message: "User account has been updated!",
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Unable to update the account, please contact administrator!",
+    });
+  } catch (error) {
+    if (error) {
+      error.status = 500;
+      error.message = "Internal server error";
     }
     next(error);
   }

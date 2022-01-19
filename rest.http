@@ -9,3 +9,13 @@ Content-Type: application/json
     "userName" : "testUsername",
     "password" : "test1"
 }
+
+### Update user role and status
+PATCH http://localhost:8000/api/v1/user
+Content-Type: application/json
+
+{
+    "userName" : "skaiterskull",
+    "role" : "admin",
+    "isActive" : false
+}
