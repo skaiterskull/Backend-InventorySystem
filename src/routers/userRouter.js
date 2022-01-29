@@ -3,6 +3,7 @@ import {
   fetchUser,
   createUser,
   updateUserRoleAndStatus,
+  deleteUser,
 } from "../models/user/userModel.js";
 import { hashPass } from "../helpers/bcryptHelper.js";
 import { newUserValidation } from "../middlewares/userValidation.js";
@@ -63,10 +64,8 @@ Router.post("/", newUserValidation, async (req, res, next) => {
 //Update user role and status
 Router.patch("/", async (req, res, next) => {
   try {
-    const { userName, ...toUpdate } = req.body;
-    console.log(userName);
-    console.log(toUpdate);
-    const result = await updateUserRoleAndStatus({ userName }, toUpdate);
+    const { email, ...toUpdate } = req.body;
+    const result = await updateUserRoleAndStatus({ email }, toUpdate);
     if (result?._id) {
       return res.json({
         status: "success",
@@ -86,4 +85,27 @@ Router.patch("/", async (req, res, next) => {
   }
 });
 
+//Delete user
+Router.delete("/", async (req, res, next) => {
+  try {
+    const { _id } = req.body;
+    const result = await deleteUser(_id);
+    if (result?._id) {
+      return res.json({
+        status: "success",
+        message: "User account has been deleted!",
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Unable to delete the account, please contact administrator!",
+    });
+  } catch (error) {
+    if (error) {
+      error.status = 500;
+      error.message = "Internal server error";
+    }
+    next(error);
+  }
+});
 export default Router;

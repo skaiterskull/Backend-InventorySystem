@@ -18,7 +18,9 @@
     "express": "^4.17.2",
     "helmet": "^5.0.1",
     "joi": "^17.5.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.6",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "slugify": "^1.6.5"
   }
 }

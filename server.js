@@ -25,8 +25,14 @@ app.use(urlencoded({ extended: true }));
 //--------------------------------------------------------------------------------------//
 //router//
 import userRouter from "./src/routers/userRouter.js";
+import loginRouter from "./src/routers/loginRouter.js";
+import categoryRouter from "./src/routers/catRouter.js";
+import { userAuth } from "./src/middlewares/authMiddleware.js";
 
-app.use("/api/v1/user", userRouter);
+app.use("/api/v1/user", userAuth, userRouter);
+app.use("/api/v1/login", loginRouter);
+app.use("/api/v1/category", userAuth, categoryRouter);
+
 //--------------------------------------------------------------------------------------//
 
 //global error handler

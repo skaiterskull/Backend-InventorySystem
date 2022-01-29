@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       maxLength: 50,
     },
-    userName: {
+    email: {
       type: String,
       required: true,
       maxLength: 50,
@@ -30,6 +30,11 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
       default: false,
+    },
+    jwtToken: {
+      type: String,
+      default: "",
+      maxLength: 500,
     },
   },
   { timestamps: true }

@@ -3,11 +3,12 @@
 
 POST http://localhost:8000/api/v1/user
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbmRyYS5oZXJlQHlhaG9vLmNvbSIsImlhdCI6MTY0MjkwMDMyOCwiZXhwIjoxNjQyOTg2NzI4fQ.3F8q1KVbcDvVPGJioM2-dVoClhkNJnUyECIEGpbb0WE
 
 {
-    "name" : "test1",
-    "userName" : "testUsername",
-    "password" : "test1"
+    "name" : "Mimi Agustina",
+    "email" : "mimi@yahoo.com",
+    "password" : "mimi1234"
 }
 
 ### Update user role and status
@@ -18,4 +19,13 @@ Content-Type: application/json
     "userName" : "skaiterskull",
     "role" : "admin",
     "isActive" : false
+}
+
+### get user by email
+POST http://localhost:8000/api/v1/login
+Content-Type: application/json
+
+{
+    "email" : "hendra.here@yahoo.com",
+    "password" : "hendra123"
 }
