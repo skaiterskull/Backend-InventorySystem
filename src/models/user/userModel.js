@@ -5,7 +5,7 @@ export const fetchUser = () => {
   return userSchema.find();
 };
 
-// Create User
+// Create user
 export const createUser = (obj) => {
   return userSchema(obj).save();
 };
