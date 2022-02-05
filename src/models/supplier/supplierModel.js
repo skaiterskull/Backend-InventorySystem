@@ -9,3 +9,8 @@ export const fetchSupplier = () => {
 export const createSupplier = (obj) => {
   return supplierSchema(obj).save();
 };
+
+//Update supplier
+export const updateSupplier = (id, toUpdate) => {
+  return supplierSchema.findByIdAndUpdate(id, toUpdate, { new: true });
+};

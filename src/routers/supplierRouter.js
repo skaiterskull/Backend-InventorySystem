@@ -3,6 +3,7 @@ import { createSlug } from "../helpers/slugifyHelper.js";
 import {
   createSupplier,
   fetchSupplier,
+  updateSupplier,
 } from "../models/supplier/supplierModel.js";
 import { newSupplierValidation } from "../middlewares/supplierValidation.js";
 
@@ -50,6 +51,37 @@ Router.post("/", newSupplierValidation, async (req, res, next) => {
     if (error.message.includes("E11000 duplicate key error collection")) {
       error.status = 200;
       error.message = "Supplier already exist";
+    }
+    next(error);
+  }
+});
+
+//Update supplier
+Router.put("/", async (req, res, next) => {
+  try {
+    const { _id, ...toUpdate } = req.body;
+    toUpdate.slug = createSlug(toUpdate.name);
+    const result = await updateSupplier(_id, toUpdate);
+    if (result?._id) {
+      return res.json({
+        status: "success",
+        message: "Supplier has been updated!",
+        result,
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Unable to update the supplier, please contact administrator!",
+    });
+  } catch (error) {
+    if (error.message.includes("E11000")) {
+      error.status = 200;
+      error.message = "Supplier already exist";
+      return next(error);
+    }
+    if (error) {
+      error.status = 500;
+      error.message = "Internal server error";
     }
     next(error);
   }
