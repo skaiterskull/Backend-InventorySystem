@@ -14,3 +14,8 @@ export const createSupplier = (obj) => {
 export const updateSupplier = (id, toUpdate) => {
   return supplierSchema.findByIdAndUpdate(id, toUpdate, { new: true });
 };
+
+//delete supplier
+export const deleteSupplier = (_id) => {
+  return supplierSchema.findByIdAndDelete(_id);
+};

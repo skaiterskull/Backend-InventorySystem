@@ -2,6 +2,7 @@ import express from "express";
 import { createSlug } from "../helpers/slugifyHelper.js";
 import {
   createSupplier,
+  deleteSupplier,
   fetchSupplier,
   updateSupplier,
 } from "../models/supplier/supplierModel.js";
@@ -79,6 +80,29 @@ Router.put("/", async (req, res, next) => {
       error.message = "Supplier already exist";
       return next(error);
     }
+    if (error) {
+      error.status = 500;
+      error.message = "Internal server error";
+    }
+    next(error);
+  }
+});
+
+Router.delete("/", async (req, res, next) => {
+  try {
+    const { _id } = req.body;
+    const result = await deleteSupplier(_id);
+    if (result?._id) {
+      return res.json({
+        status: "success",
+        message: "Supplier has been deleted!",
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Unable to delete the supplier, please contact administrator!",
+    });
+  } catch (error) {
     if (error) {
       error.status = 500;
       error.message = "Internal server error";
