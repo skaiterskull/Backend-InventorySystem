@@ -1,6 +1,10 @@
 import express from "express";
 import { newProductValidation } from "../middlewares/productValidation.js";
-import { createProduct, findProduct } from "../models/product/productModel.js";
+import {
+  createProduct,
+  findProduct,
+  updateProduct,
+} from "../models/product/productModel.js";
 
 const Router = express.Router();
 
@@ -43,6 +47,29 @@ Router.post("/find-product", async (req, res, next) => {
           message: "Product not found, please contact administrator.",
         });
   } catch (error) {
+    next(error);
+  }
+});
+
+//Update product
+Router.put("/", async (req, res, next) => {
+  try {
+    const { _id, ...toUpdate } = req.body;
+    const result = await updateProduct(_id, toUpdate);
+    if (result?._id) {
+      return res.json({
+        status: "success",
+        message: "Product has been updated!",
+        result,
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Unable to update the product, please contact administrator!",
+    });
+  } catch (error) {
+    error.status = 500;
+    error.message = "Internal server error";
     next(error);
   }
 });
