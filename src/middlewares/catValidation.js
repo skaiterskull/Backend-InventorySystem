@@ -1,11 +1,13 @@
 import Joi from "joi";
 
-const name = Joi.string().max(50).required();
+const title = Joi.string().max(50).required();
+const description = Joi.string().max(300).min(1).required();
 
 export const newCatValidation = (req, res, next) => {
   try {
     const schema = Joi.object({
-      name,
+      title,
+      description,
     });
 
     const { error } = schema.validate(req.body);

@@ -33,7 +33,7 @@ import { userAuth } from "./src/middlewares/authMiddleware.js";
 
 app.use("/api/v1/user", userAuth, userRouter);
 app.use("/api/v1/login", loginRouter);
-app.use("/api/v1/category", userAuth, categoryRouter);
+app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/supplier", userAuth, supplierRouter);
 app.use("/api/v1/product", userAuth, productRouter);
 
