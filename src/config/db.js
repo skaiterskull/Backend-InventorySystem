@@ -8,7 +8,10 @@ const mongoClient = async () => {
         "Please add mongoDB connection in env variable MONGO_CLIENT"
       );
     }
-    const con = await mongoose.connect(mongoUrl);
+    const con = await mongoose.connect(mongoUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     if (con) {
       console.log("mongodb connected");
     }
