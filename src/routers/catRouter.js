@@ -1,31 +1,33 @@
 import express from "express";
 import { createSlug } from "../helpers/slugifyHelper.js";
 import { newCatValidation } from "../middlewares/catValidation.js";
-import { createCat } from "../models/category/catModel.js";
+import { createCat, fetchCat } from "../models/category/catModel.js";
+import { sortArrayAcs } from "../helpers/sortingHelper.js";
 
 const Router = express.Router();
 
 //fetch all category
-// Router.get("/", async (req, res, next) => {
-//   try {
-//     const result = await fetchCat();
+Router.get("/", async (req, res, next) => {
+  try {
+    const result = await fetchCat();
 
-//     if (result.length) {
-//       return res.json({
-//         status: "success",
-//         result,
-//       });
-//     }
+    if (result.length) {
+      const sortedResult = sortArrayAcs(result);
+      return res.json({
+        status: "success",
+        result: sortedResult,
+      });
+    }
 
-//     res.json({ status: "error", message: "category not found" });
-//   } catch (error) {
-//     if (error) {
-//       error.status = 500;
-//       error.message = "Internal server error";
-//     }
-//     next(error);
-//   }
-// });
+    res.json({ status: "error", message: "category not found" });
+  } catch (error) {
+    if (error) {
+      error.status = 500;
+      error.message = "Internal server error";
+    }
+    next(error);
+  }
+});
 
 // add new category
 Router.post("/", newCatValidation, async (req, res, next) => {
@@ -57,7 +59,7 @@ Router.post("/", newCatValidation, async (req, res, next) => {
   }
 });
 
-//Delete user
+//Delete category
 // Router.delete("/", async (req, res, next) => {
 //   try {
 //     const { _id } = req.body;

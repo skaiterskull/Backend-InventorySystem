@@ -6,9 +6,9 @@ export const createCat = (obj) => {
 };
 
 // //Fetch category
-// export const fetchCat = () => {
-//   return catSchema.find();
-// };
+export const fetchCat = () => {
+  return catSchema.find();
+};
 
 // //delete category
 // export const deleteCat = (_id) => {
