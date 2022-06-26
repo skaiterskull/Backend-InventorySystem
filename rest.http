@@ -29,3 +29,8 @@ Content-Type: application/json
     "email" : "hendra.here@yahoo.com",
     "password" : "hendra123"
 }
+
+### get category by slug
+GET  http://localhost:8000/api/v1/category/add-on
+Content-Type: application/json
+

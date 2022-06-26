@@ -10,6 +10,11 @@ export const fetchCat = () => {
   return catSchema.find();
 };
 
+export const getSingleCat = (obj) => {
+  console.log("this is hit", obj);
+  return catSchema.findOne(obj);
+};
+
 // //delete category
 // export const deleteCat = (_id) => {
 //   return catSchema.findByIdAndDelete(_id);

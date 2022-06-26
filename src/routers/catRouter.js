@@ -1,7 +1,11 @@
 import express from "express";
 import { createSlug } from "../helpers/slugifyHelper.js";
 import { newCatValidation } from "../middlewares/catValidation.js";
-import { createCat, fetchCat } from "../models/category/catModel.js";
+import {
+  createCat,
+  fetchCat,
+  getSingleCat,
+} from "../models/category/catModel.js";
 import { sortArrayAcs } from "../helpers/sortingHelper.js";
 
 const Router = express.Router();
@@ -20,6 +24,29 @@ Router.get("/", async (req, res, next) => {
     }
 
     res.json({ status: "error", message: "category not found" });
+  } catch (error) {
+    if (error) {
+      error.status = 500;
+      error.message = "Internal server error";
+    }
+    next(error);
+  }
+});
+
+//fetch single category
+Router.get("/:slug", async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+    const result = await getSingleCat({ slug: slug });
+
+    if (result?._id) {
+      return res.json({
+        status: "success",
+        result,
+      });
+    }
+
+    return res.json({ status: "error", message: "category not found" });
   } catch (error) {
     if (error) {
       error.status = 500;
