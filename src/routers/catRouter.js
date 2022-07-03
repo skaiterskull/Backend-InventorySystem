@@ -5,8 +5,8 @@ import {
   createCat,
   fetchCat,
   getSingleCat,
+  deleteCat,
 } from "../models/category/catModel.js";
-import { sortArrayAcs } from "../helpers/sortingHelper.js";
 
 const Router = express.Router();
 
@@ -16,10 +16,9 @@ Router.get("/", async (req, res, next) => {
     const result = await fetchCat();
 
     if (result.length) {
-      const sortedResult = sortArrayAcs(result);
       return res.json({
         status: "success",
-        result: sortedResult,
+        result,
       });
     }
 
@@ -86,28 +85,29 @@ Router.post("/", newCatValidation, async (req, res, next) => {
   }
 });
 
-//Delete category
-// Router.delete("/", async (req, res, next) => {
-//   try {
-//     const { _id } = req.body;
-//     const result = await deleteCat(_id);
-//     if (result?._id) {
-//       return res.json({
-//         status: "success",
-//         message: "Category has been deleted!",
-//       });
-//     }
-//     res.json({
-//       status: "error",
-//       message: "Unable to delete the category, please contact administrator!",
-//     });
-//   } catch (error) {
-//     if (error) {
-//       error.status = 500;
-//       error.message = "Internal server error";
-//     }
-//     next(error);
-//   }
-// });
+// Delete category
+Router.delete("/", async (req, res, next) => {
+  try {
+    console.log(req.body);
+    const { _id } = req.body;
+    const result = await deleteCat(_id);
+    if (result?._id) {
+      return res.json({
+        status: "success",
+        message: "Category has been deleted!",
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Unable to delete the category, please contact administrator!",
+    });
+  } catch (error) {
+    if (error) {
+      error.status = 500;
+      error.message = "Internal server error";
+    }
+    next(error);
+  }
+});
 
 export default Router;

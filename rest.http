@@ -30,6 +30,10 @@ Content-Type: application/json
     "password" : "hendra123"
 }
 
+### get category in asc by name
+GET http://localhost:8000/api/v1/category
+Content-Type: application/json
+
 ### get category by slug
 GET  http://localhost:8000/api/v1/category/add-on
 Content-Type: application/json

@@ -5,9 +5,9 @@ export const createCat = (obj) => {
   return catSchema(obj).save();
 };
 
-// //Fetch category
+//Fetch category and sort in ascending by slug
 export const fetchCat = () => {
-  return catSchema.find();
+  return catSchema.find().sort({ slug: 1, _id: 1 });
 };
 
 export const getSingleCat = (obj) => {
@@ -15,7 +15,7 @@ export const getSingleCat = (obj) => {
   return catSchema.findOne(obj);
 };
 
-// //delete category
-// export const deleteCat = (_id) => {
-//   return catSchema.findByIdAndDelete(_id);
-// };
+//delete category
+export const deleteCat = (_id) => {
+  return catSchema.findByIdAndDelete(_id);
+};
