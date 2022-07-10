@@ -1,11 +1,15 @@
 import express from "express";
 import { createSlug } from "../helpers/slugifyHelper.js";
-import { newCatValidation } from "../middlewares/catValidation.js";
+import {
+  newCatValidation,
+  updateCatValidation,
+} from "../middlewares/catValidation.js";
 import {
   createCat,
   fetchCat,
   getSingleCat,
   deleteCat,
+  updateCat,
 } from "../models/category/catModel.js";
 
 const Router = express.Router();
@@ -45,7 +49,7 @@ Router.get("/:slug", async (req, res, next) => {
       });
     }
 
-    return res.json({ status: "error", message: "category not found" });
+    return res.json({ status: "error", message: "Category not found" });
   } catch (error) {
     if (error) {
       error.status = 500;
@@ -80,6 +84,39 @@ Router.post("/", newCatValidation, async (req, res, next) => {
     if (error.message.includes("E11000 duplicate key error collection")) {
       error.status = 200;
       error.message = "Category already exist";
+    }
+    next(error);
+  }
+});
+
+//update category
+Router.patch("/", updateCatValidation, async (req, res, next) => {
+  try {
+    const { _id, title, description } = req.body;
+    const slug = createSlug(title);
+
+    const category = await updateCat({
+      _id,
+      slug,
+      title,
+      description,
+    });
+
+    category._id
+      ? res.json({
+          status: "success",
+          message: "Category has been updated.",
+          result: category,
+        })
+      : res.json({
+          status: "error",
+          message: "Unable to update category, please contact administrator.",
+        });
+  } catch (error) {
+    if (error.message.includes("E11000 duplicate key error collection")) {
+      error.status = 200;
+      error.message =
+        "Category already exist, please use another category title!";
     }
     next(error);
   }

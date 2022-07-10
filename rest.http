@@ -38,3 +38,12 @@ Content-Type: application/json
 GET  http://localhost:8000/api/v1/category/add-on
 Content-Type: application/json
 
+### Update category
+PATCH http://localhost:8000/api/v1/category
+Content-Type: application/json
+
+{
+    "_id" : "62aea4b56da672682cd8fae5",
+    "title" : "hendra1",
+    "description" : "dsadsadsad"
+}
