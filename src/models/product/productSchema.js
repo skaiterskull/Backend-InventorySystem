@@ -2,22 +2,33 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
-    plu: {
+    sku: {
       type: String,
       required: true,
-      maxLength: 8,
+      maxLength: 20,
+      minlength: 6,
       indexes: 1,
       unique: true,
     },
-    name: {
+    title: {
       type: String,
       required: true,
+      minlength: 2,
       maxLength: 50,
+    },
+    stockCount: {
+      type: Number,
+      max: 9999,
+    },
+    description: {
+      type: String,
+      minlength: 1,
+      maxlength: 300,
     },
     isActive: {
       type: Boolean,
       required: true,
-      default: true,
+      default: false,
     },
     buyPrice: {
       type: Number,
@@ -27,7 +38,12 @@ const productSchema = new mongoose.Schema(
     sellPrice: {
       type: Number,
       required: true,
-      max: 50000000,
+      max: 60000000,
+    },
+    createdBy: {
+      type: String,
+      required: true,
+      ref: "userId",
     },
     supplier: {
       type: Array,
